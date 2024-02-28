@@ -1,4 +1,6 @@
 "use client";
+import PostForm from "@/components/PostForm";
+import { User } from "@prisma/client";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -7,6 +9,8 @@ export default function Home() {
     const [password, setPassword] = useState("");
     const [isLogged, setIsLogged] = useState(false);
     const [userToken, setUserToken] = useState(null);
+    const [isAdmin, setIsAdmin] = useState(false);
+    const [name, setName] = useState("");
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -23,11 +27,11 @@ export default function Home() {
             .then((data) => {
                 // Handle the response data
                 console.log(data);
-                if (data.error) {
-                    alert(data.error);
-                } else {
+                if (!data.error) {
                     setIsLogged(true);
                     setUserToken(data.token);
+                    setIsAdmin(data.isAdmin);
+                    setName(data.name);
                 }
             })
             .catch((error) => {
@@ -40,28 +44,32 @@ export default function Home() {
         <main className="flex min-h-screen flex-col items-center justify-between p-24">
             {isLogged ? (
                 <div className="mb-5">
-                    <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-5">
+                    <h1 className="text-2xl font-bold mb-5">
                         You are logged in
                     </h1>
                     <p>
-                        Your token is<br></br>
-                        <br></br>
+                        Welcome <strong>{name}</strong>
+                    </p>
+                    <p>
+                        Your token to use API<br></br>
                         <code className="break-all">{userToken}</code>
                     </p>
+
+                    <PostForm token={userToken} isAdmin={isAdmin} name={name} />
                 </div>
             ) : (
                 <form onSubmit={handleSubmit} className="max-w-sm mx-auto">
                     <div className="mb-5">
                         <label
                             htmlFor="email"
-                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                            className="block mb-2 text-sm font-medium"
                         >
                             Your email
                         </label>
                         <input
                             type="email"
                             id="email"
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="name@flowbite.com"
                             required
                             value={email}
@@ -71,14 +79,14 @@ export default function Home() {
                     <div className="mb-5">
                         <label
                             htmlFor="password"
-                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                            className="block mb-2 text-sm font-medium"
                         >
                             Your password
                         </label>
                         <input
                             type="password"
                             id="password"
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             required
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}

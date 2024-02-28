@@ -29,7 +29,14 @@ export async function POST(req: Request) {
                 }
             );
 
-            return NextResponse.json({ token }, { status: 200 });
+            return NextResponse.json(
+                {
+                    token,
+                    isAdmin: existingUser.isAdmin,
+                    name: existingUser.name,
+                },
+                { status: 200 }
+            );
         }
     } catch (e) {
         return NextResponse.json({ error: e }, { status: 500 });

@@ -19,4 +19,11 @@ model User {
   email    String  @unique
   name     String?
   password String
+  isAdmin  Boolean @default(false)
+}
+
+model Post {
+  id      Int    @id @default(autoincrement())
+  title   String
+  content String
 }

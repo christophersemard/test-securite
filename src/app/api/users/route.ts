@@ -13,6 +13,7 @@ export async function POST(req: Request) {
                 email,
                 name,
                 password: password,
+                isAdmin: false,
             },
         });
         return NextResponse.json({ data: newUser }, { status: 201 });
