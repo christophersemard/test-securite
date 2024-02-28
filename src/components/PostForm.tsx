@@ -33,7 +33,7 @@ const PostForm = ({
             })
                 .then((response) => response.json())
                 .then((data) => {
-                    // Faire quelque chose avec la réponse de l'API
+                    setPosts([...posts, data]);
                 })
                 .catch((error) => {
                     // Gérer l'erreur
@@ -73,10 +73,10 @@ const PostForm = ({
     }, [posts, error]);
 
     return (
-        <div className="py-24 grid lg:grid-cols-2">
+        <div className="py-24 grid lg:grid-cols-2 gap-5">
             <form
                 onSubmit={handleSubmit}
-                className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+                className="bg-gray-100 shadow-md rounded px-8 pt-6 pb-8 mb-4"
             >
                 <h1 className="text-2xl font-bold mb-4">Add a Post</h1>
                 {error && <p className="text-red-500 mb-4">{error}</p>}
@@ -108,13 +108,13 @@ const PostForm = ({
                 </button>
             </form>
 
-            <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <div className="bg-gray-100 shadow-md rounded px-8 pt-6 pb-8 mb-4">
                 <h2 className="text-2xl font-bold mt-0 mb-4">Posts list</h2>
 
                 <ul>
                     {posts.length > 0 ? (
                         posts.map((post) => (
-                            <li key={post.id} className="mb-4">
+                            <li key={post.id} className="mb-4 bg-gray-200 p-4">
                                 <h3 className="text-lg font-bold">
                                     {post.title}
                                 </h3>

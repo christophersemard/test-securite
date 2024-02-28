@@ -13,6 +13,7 @@ export async function POST(req: Request) {
 
     try {
         const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+        console.log(decodedToken);
 
         try {
             const newPost = await prisma.post.create({

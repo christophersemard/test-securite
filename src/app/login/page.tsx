@@ -2,7 +2,7 @@
 import PostForm from "@/components/PostForm";
 import { User } from "@prisma/client";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Home() {
     const [email, setEmail] = useState("");
@@ -40,6 +40,15 @@ export default function Home() {
             });
     };
 
+    useEffect(() => {
+        let comment = document.querySelector("#comment");
+
+        if (comment) {
+            comment.innerHTML =
+                "<!-- Logs admin@admin.com | password : 123 ––>";
+        }
+    }, []);
+
     return (
         <main className="flex min-h-screen flex-col items-center justify-between p-24">
             {isLogged ? (
@@ -59,6 +68,7 @@ export default function Home() {
                 </div>
             ) : (
                 <form onSubmit={handleSubmit} className="max-w-sm mx-auto">
+                    <div id="comment"></div>
                     <div className="mb-5">
                         <label
                             htmlFor="email"
